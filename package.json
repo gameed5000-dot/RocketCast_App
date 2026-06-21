@@ -1,0 +1,51 @@
+{
+  "name": "rc---rocket-cast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.2"
+  },
+  "dependencies": {
+    "electron-log": "^5.4.4",
+    "electron-updater": "^6.8.9",
+    "express": "^5.2.1",
+    "git": "^0.1.5",
+    "socket.io": "^4.8.3",
+    "ws": "^8.21.0"
+  },
+  "build": {
+    "appId": "com.rocketcast.app",
+    "productName": "Rocket Cast",
+    "artifactName": "Rocket Cast Setup.${ext}",
+    "files": [
+      "main.js",
+      "server.js",
+      "preload.js",
+      "renderer.js",
+      "package.json",
+      "index.html",
+      "style.css",
+      "public/**/*",
+      "overlays/**/*",
+      "build/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/RC.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
