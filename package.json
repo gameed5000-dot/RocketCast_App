@@ -1,15 +1,21 @@
 {
   "name": "rc---rocket-cast",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "auth-api:install": "npm --prefix auth-api install",
+    "auth-api:start": "npm --prefix auth-api start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gameed5000-dot/RC---Rocket-Cast.git"
+  },
   "type": "commonjs",
   "devDependencies": {
     "electron": "^42.4.0",
@@ -42,6 +48,12 @@
     "win": {
       "target": "nsis",
       "icon": "build/RC.ico"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "gameed5000-dot",
+      "repo": "RC---Rocket-Cast",
+      "releaseType": "release"
     },
     "nsis": {
       "oneClick": false,

@@ -5,13 +5,329 @@
     <title>Rocket Cast Control Panel</title>
     <script src="/socket.io/socket.io.js"></script>
     <style>
+        :root {
+            --font-scale: 1;
+            --bg: #1a1a1a;
+            --text: #ffffff;
+            --tab-border: #444;
+            --tab-bg: #333;
+            --tab-bg-active: #222;
+            --tab-text: #aaa;
+            --accent: #00d4ff;
+            --panel-bg: #222;
+            --panel-border: #444;
+            --input-bg: #2a2a2a;
+            --input-border: #444;
+            --input-text: #fff;
+            --muted: #999;
+            --status-bg: #141414;
+            --status-border: #343434;
+            --status-text: #d6d6d6;
+            --panel-alt: #202020;
+            --panel-hover: #2b2b2b;
+            --fun-bg: #3a3221;
+        }
+
+        body[data-theme="light"] {
+            --bg: #f3f6fb;
+            --text: #122235;
+            --tab-border: #cfd8e6;
+            --tab-bg: #e8eef8;
+            --tab-bg-active: #ffffff;
+            --tab-text: #33506d;
+            --accent: #0066cc;
+            --panel-bg: #ffffff;
+            --panel-border: #d4deea;
+            --input-bg: #f8fbff;
+            --input-border: #ccd7e5;
+            --input-text: #0f2238;
+            --muted: #5e738c;
+            --status-bg: #eaf2fc;
+            --status-border: #cad9ea;
+            --status-text: #1a3a5d;
+            --panel-alt: #f7fbff;
+            --panel-hover: #e9f2ff;
+            --fun-bg: #fff2da;
+        }
+
+        body[data-theme="ocean"] {
+            --bg: #0f1b24;
+            --text: #e7f7ff;
+            --tab-border: #224154;
+            --tab-bg: #183142;
+            --tab-bg-active: #20455b;
+            --tab-text: #8bb8cf;
+            --accent: #4fd1ff;
+            --panel-bg: #142734;
+            --panel-border: #275069;
+            --input-bg: #10222d;
+            --input-border: #2a5a76;
+            --input-text: #ecfbff;
+            --muted: #83a8bb;
+            --status-bg: #10212b;
+            --status-border: #275069;
+            --status-text: #c9f0ff;
+            --panel-alt: #173040;
+            --panel-hover: #1f4156;
+            --fun-bg: #243f4b;
+        }
+
+        body[data-theme="ember"] {
+            --bg: #1f1410;
+            --text: #fff2ea;
+            --tab-border: #5a3527;
+            --tab-bg: #3a2119;
+            --tab-bg-active: #4a2a1f;
+            --tab-text: #d3a28d;
+            --accent: #ff8b4d;
+            --panel-bg: #2a1913;
+            --panel-border: #633a2a;
+            --input-bg: #241611;
+            --input-border: #744230;
+            --input-text: #fff2ea;
+            --muted: #d0a28e;
+            --status-bg: #231611;
+            --status-border: #633a2a;
+            --status-text: #ffe1d0;
+            --panel-alt: #342019;
+            --panel-hover: #4a2a20;
+            --fun-bg: #4b3122;
+        }
+
+        body[data-theme="forest"] {
+            --bg: #122018;
+            --text: #eaf8ee;
+            --tab-border: #2d4f3a;
+            --tab-bg: #1d3327;
+            --tab-bg-active: #264234;
+            --tab-text: #9fc1aa;
+            --accent: #58d68d;
+            --panel-bg: #1a2d23;
+            --panel-border: #335c45;
+            --input-bg: #16271f;
+            --input-border: #3b6e53;
+            --input-text: #ecfff1;
+            --muted: #9ab8a4;
+            --status-bg: #16271f;
+            --status-border: #3b6e53;
+            --status-text: #ddfbe8;
+            --panel-alt: #1e3629;
+            --panel-hover: #294638;
+            --fun-bg: #314c3d;
+        }
+
+        body[data-theme="sunrise"] {
+            --bg: #28180f;
+            --text: #fff2e6;
+            --tab-border: #6f422a;
+            --tab-bg: #4a2b1b;
+            --tab-bg-active: #5a3421;
+            --tab-text: #e0b08e;
+            --accent: #ffb04a;
+            --panel-bg: #3a2318;
+            --panel-border: #7a4b30;
+            --input-bg: #311e15;
+            --input-border: #895339;
+            --input-text: #fff6ec;
+            --muted: #dfb899;
+            --status-bg: #2e1d14;
+            --status-border: #7a4b30;
+            --status-text: #ffe5ce;
+            --panel-alt: #43281b;
+            --panel-hover: #593523;
+            --fun-bg: #62422a;
+        }
+
+        body[data-theme="midnight"] {
+            --bg: #0e1018;
+            --text: #e6ecff;
+            --tab-border: #2a3150;
+            --tab-bg: #1a2038;
+            --tab-bg-active: #222a47;
+            --tab-text: #98a8d9;
+            --accent: #7ea0ff;
+            --panel-bg: #171d31;
+            --panel-border: #33406a;
+            --input-bg: #141a2c;
+            --input-border: #3d4c79;
+            --input-text: #eef2ff;
+            --muted: #93a2cd;
+            --status-bg: #13192b;
+            --status-border: #3a4a77;
+            --status-text: #d8e0ff;
+            --panel-alt: #1b2239;
+            --panel-hover: #263152;
+            --fun-bg: #323f66;
+        }
+
+        body[data-theme="rose"] {
+            --bg: #22151d;
+            --text: #ffeaf5;
+            --tab-border: #6a3a53;
+            --tab-bg: #442538;
+            --tab-bg-active: #532d44;
+            --tab-text: #d8a0bf;
+            --accent: #ff6fa8;
+            --panel-bg: #381f2f;
+            --panel-border: #794460;
+            --input-bg: #311b29;
+            --input-border: #87506d;
+            --input-text: #ffeef8;
+            --muted: #d4a2bc;
+            --status-bg: #2b1724;
+            --status-border: #794460;
+            --status-text: #ffd7ea;
+            --panel-alt: #412338;
+            --panel-hover: #5a3150;
+            --fun-bg: #6a3d5a;
+        }
+
+        body[data-theme="slate"] {
+            --bg: #171b22;
+            --text: #e8edf5;
+            --tab-border: #3f4a5d;
+            --tab-bg: #2b3442;
+            --tab-bg-active: #334052;
+            --tab-text: #b0bfd3;
+            --accent: #88a8d8;
+            --panel-bg: #252d39;
+            --panel-border: #4a5a72;
+            --input-bg: #202734;
+            --input-border: #586985;
+            --input-text: #eff4fb;
+            --muted: #a8b6cb;
+            --status-bg: #1f2633;
+            --status-border: #4a5a72;
+            --status-text: #dce6f5;
+            --panel-alt: #2a3341;
+            --panel-hover: #39475b;
+            --fun-bg: #4a5a74;
+        }
+
+        body[data-theme="mint"] {
+            --bg: #14211c;
+            --text: #eafff6;
+            --tab-border: #31594a;
+            --tab-bg: #1f3a2f;
+            --tab-bg-active: #285042;
+            --tab-text: #9acfb9;
+            --accent: #54e3aa;
+            --panel-bg: #1b3329;
+            --panel-border: #3c6f5c;
+            --input-bg: #172a22;
+            --input-border: #46806a;
+            --input-text: #ecfff8;
+            --muted: #9ac8b6;
+            --status-bg: #16281f;
+            --status-border: #3c6f5c;
+            --status-text: #d7fff0;
+            --panel-alt: #1f3b2f;
+            --panel-hover: #2c5142;
+            --fun-bg: #3f6858;
+        }
+
+        body[data-theme="lavender"] {
+            --bg: #1a1624;
+            --text: #f3ebff;
+            --tab-border: #4f4472;
+            --tab-bg: #33294c;
+            --tab-bg-active: #42345f;
+            --tab-text: #b9a7df;
+            --accent: #b89cff;
+            --panel-bg: #2a223f;
+            --panel-border: #5e4d88;
+            --input-bg: #231d35;
+            --input-border: #6a57a0;
+            --input-text: #f8f1ff;
+            --muted: #b6a7d9;
+            --status-bg: #201a31;
+            --status-border: #5e4d88;
+            --status-text: #e9dbff;
+            --panel-alt: #2f2647;
+            --panel-hover: #433569;
+            --fun-bg: #5a4a83;
+        }
+
+        body[data-theme="sand"] {
+            --bg: #231d14;
+            --text: #fdf3e4;
+            --tab-border: #665339;
+            --tab-bg: #433421;
+            --tab-bg-active: #523f27;
+            --tab-text: #d8c09c;
+            --accent: #f0c36a;
+            --panel-bg: #382c1c;
+            --panel-border: #796243;
+            --input-bg: #302516;
+            --input-border: #8a714f;
+            --input-text: #fff8ec;
+            --muted: #d2bd9d;
+            --status-bg: #2c2215;
+            --status-border: #796243;
+            --status-text: #f7e8d0;
+            --panel-alt: #3f301e;
+            --panel-hover: #58442c;
+            --fun-bg: #6a5337;
+        }
+
+        body[data-theme="neon"] {
+            --bg: #111217;
+            --text: #e7f8ff;
+            --tab-border: #304054;
+            --tab-bg: #1a2430;
+            --tab-bg-active: #233143;
+            --tab-text: #92aec6;
+            --accent: #00ffc2;
+            --panel-bg: #17212d;
+            --panel-border: #35506b;
+            --input-bg: #131d29;
+            --input-border: #3d607f;
+            --input-text: #ebfbff;
+            --muted: #8ca7bf;
+            --status-bg: #111a24;
+            --status-border: #35506b;
+            --status-text: #cdf4ff;
+            --panel-alt: #1a2735;
+            --panel-hover: #263b50;
+            --fun-bg: #31546c;
+        }
+
+        body[data-theme="mono"] {
+            --bg: #171717;
+            --text: #f2f2f2;
+            --tab-border: #4a4a4a;
+            --tab-bg: #2a2a2a;
+            --tab-bg-active: #383838;
+            --tab-text: #c0c0c0;
+            --accent: #f5f5f5;
+            --panel-bg: #242424;
+            --panel-border: #5a5a5a;
+            --input-bg: #1f1f1f;
+            --input-border: #6a6a6a;
+            --input-text: #ffffff;
+            --muted: #b8b8b8;
+            --status-bg: #1d1d1d;
+            --status-border: #5a5a5a;
+            --status-text: #f2f2f2;
+            --panel-alt: #2b2b2b;
+            --panel-hover: #3b3b3b;
+            --fun-bg: #484848;
+        }
+
+        body.baby-mode {
+            letter-spacing: normal;
+            word-spacing: normal;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #1a1a1a;
-            color: #fff;
+            background: var(--bg);
+            color: var(--text);
             font-family: Arial, sans-serif;
+            font-size: calc(16px * var(--font-scale));
             padding: 20px;
             overflow-y: auto;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
         .container { max-width: 1200px; margin: 0 auto; }
 
@@ -19,21 +335,21 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #444;
+            border-bottom: 2px solid var(--tab-border);
         }
         .tab-btn {
             padding: 10px 20px;
-            background: #333;
-            color: #aaa;
+            background: var(--tab-bg);
+            color: var(--tab-text);
             border: none;
             cursor: pointer;
             font-size: 14px;
             border-bottom: 3px solid transparent;
         }
         .tab-btn.active {
-            color: #00d4ff;
-            border-bottom-color: #00d4ff;
-            background: #222;
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: var(--tab-bg-active);
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -47,9 +363,9 @@
         .match-info input,
         .match-info select {
             padding: 10px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #fff;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-text);
             font-size: 14px;
         }
 
@@ -79,30 +395,30 @@
             margin-bottom: 30px;
         }
         .team-card {
-            background: #222;
-            border: 1px solid #444;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             padding: 20px;
             border-radius: 4px;
         }
         .team-card h3 { font-size: 18px; margin-bottom: 15px; text-align: center; }
         .team-field { margin-bottom: 15px; display: flex; gap: 10px; align-items: center; }
-        .team-field label { font-size: 12px; color: #aaa; min-width: 80px; }
+        .team-field label { font-size: 12px; color: var(--muted); min-width: 80px; }
         .team-field input[type="text"],
         .team-field input[type="number"] {
             flex: 1;
             padding: 8px;
-            background: #333;
-            border: 1px solid #444;
-            color: #fff;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-text);
             font-size: 14px;
         }
 
-        .logo-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #444; }
+        .logo-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--panel-border); }
         .logo-preview {
             width: 100%;
             height: 80px;
-            background: #1a1a1a;
-            border: 1px solid #444;
+            background: var(--bg);
+            border: 1px solid var(--input-border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -117,8 +433,8 @@
         }
 
         .color-editor {
-            background: #222;
-            border: 1px solid #444;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             padding: 20px;
             border-radius: 4px;
             display: grid;
@@ -130,7 +446,7 @@
         .color-control input[type="color"] {
             width: 60px;
             height: 40px;
-            border: 1px solid #444;
+            border: 1px solid var(--input-border);
             cursor: pointer;
         }
 
@@ -141,8 +457,8 @@
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            background: #1f1f1f;
-            border: 1px solid #3a3a3a;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             border-radius: 8px;
             padding: 12px 14px;
         }
@@ -153,39 +469,39 @@
             gap: 12px;
         }
         .stats-card {
-            background: linear-gradient(180deg, #262626, #202020);
-            border: 1px solid #454545;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             border-radius: 6px;
             padding: 14px;
         }
-        .stats-card h3 { margin: 0 0 8px 0; font-size: 14px; color: #fff; }
+        .stats-card h3 { margin: 0 0 8px 0; font-size: 14px; color: var(--text); }
         .stats-kpi {
             display: flex;
             justify-content: space-between;
             font-size: 13px;
             padding: 4px 0;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--panel-border);
         }
         .stats-kpi:last-child { border-bottom: none; }
-        .stats-kpi strong { color: #00d4ff; }
+        .stats-kpi strong { color: var(--accent); }
 
         .stats-panel {
-            background: #222;
-            border: 1px solid #444;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             border-radius: 6px;
             padding: 14px;
         }
         .stats-panel h3 {
             margin: 0 0 10px 0;
             font-size: 13px;
-            color: #aaa;
+            color: var(--muted);
             text-transform: uppercase;
         }
 
         .table-scroll {
             max-height: 360px;
             overflow: auto;
-            border: 1px solid #333;
+            border: 1px solid var(--panel-border);
             border-radius: 6px;
         }
 
@@ -198,32 +514,32 @@
         .percent-table td {
             text-align: left;
             padding: 8px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--panel-border);
             vertical-align: middle;
         }
         .percent-table th {
             font-size: 11px;
             text-transform: uppercase;
-            color: #888;
+            color: var(--muted);
             position: sticky;
             top: 0;
             z-index: 1;
-            background: #1f1f1f;
+            background: var(--panel-bg);
         }
         .percent-table tbody tr:nth-child(odd) {
-            background: #202020;
+            background: var(--panel-alt);
         }
         .percent-table tbody tr:hover {
-            background: #2b2b2b;
+            background: var(--panel-hover);
         }
 
         .bar-wrap {
             width: 100%;
             height: 8px;
-            background: #1a1a1a;
+            background: var(--bg);
             border-radius: 999px;
             overflow: hidden;
-            border: 1px solid #333;
+            border: 1px solid var(--panel-border);
         }
         .bar {
             height: 100%;
@@ -236,33 +552,150 @@
             gap: 10px;
         }
         .point {
-            background: #1d1d1d;
-            border: 1px solid #3a3a3a;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             border-left: 3px solid #20b2aa;
             border-radius: 4px;
             padding: 10px 12px;
             font-size: 13px;
-            color: #ddd;
+            color: var(--text);
             line-height: 1.45;
         }
         .point.fun {
             border-left-color: #f39c12;
-            background: #242019;
-            color: #ffe7bd;
+            background: var(--fun-bg);
+            color: var(--text);
         }
 
-        .empty-state { color: #666; font-size: 14px; }
+        .empty-state { color: var(--muted); font-size: 14px; }
+
+        .rl-status-banner {
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            border: 1px solid var(--status-border);
+            border-radius: 8px;
+            background: var(--status-bg);
+            color: var(--status-text);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .options-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .option-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-card h3 {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .option-card p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .option-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .option-input {
+            width: 100%;
+            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-text);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .account-status {
+            padding: 8px 10px;
+            border-radius: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-text);
+            font-size: 12px;
+        }
+
+        .overlay-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .overlay-hint {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .overlay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 12px;
+        }
+        .overlay-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .overlay-card-title {
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 700;
+        }
+        .overlay-select {
+            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-text);
+            font-size: 14px;
+        }
+        .help-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .help-card h3 {
+            margin: 0 0 10px;
+        }
+        .help-card ol {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.7;
+            color: var(--text);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 style="margin-bottom: 20px;">Rocket Cast</h1>
+        <div id="rl-status-box" class="rl-status-banner">Rocket League status: waiting for connection...</div>
 
         <div class="tab-row">
             <button class="tab-btn active" data-tab="match-settings">Match Settings</button>
             <button class="tab-btn" data-tab="overlays">Overlays</button>
             <button class="tab-btn" data-tab="stats">Stats</button>
             <button class="tab-btn" data-tab="options">Options</button>
+            <button class="tab-btn" id="accounts-tab-btn" data-tab="accounts" style="display:none;">Spreadsheet</button>
+            <button class="tab-btn" data-tab="help">Help</button>
         </div>
 
         <div id="match-settings" class="tab-content active">
@@ -344,7 +777,23 @@
 
         <div id="overlays" class="tab-content">
             <h2 style="margin-bottom: 12px;">Available Overlays</h2>
-            <div id="overlayList" style="display:flex;flex-direction:column;gap:10px;"></div>
+            <div class="overlay-controls">
+                <button class="btn" id="upload-overlay-btn" style="background:#20b2aa;color:white;width:auto;margin:0;">Upload Overlay Folder</button>
+                <button class="btn" id="refresh-overlays-btn" style="background:#007bff;color:white;width:auto;margin:0;">Refresh</button>
+                <div class="overlay-hint">Overlay folder must include overlay.html</div>
+            </div>
+            <div class="overlay-grid">
+                <div class="overlay-card">
+                    <div class="overlay-card-title">Built-in Overlays</div>
+                    <select id="builtin-overlay-select" class="overlay-select"></select>
+                    <button class="btn" id="launch-builtin-overlay-btn" style="background:#007bff;color:white;width:auto;margin:0;">Launch Built-in</button>
+                </div>
+                <div class="overlay-card">
+                    <div class="overlay-card-title">Uploaded Overlays</div>
+                    <select id="custom-overlay-select" class="overlay-select"></select>
+                    <button class="btn" id="launch-custom-overlay-btn" style="background:#20b2aa;color:white;width:auto;margin:0;">Launch Uploaded</button>
+                </div>
+            </div>
         </div>
 
         <div id="stats" class="tab-content">
@@ -352,7 +801,7 @@
                 <div class="stats-header">
                     <div>
                         <h2 style="margin-bottom: 6px;">Caster Stats Hub</h2>
-                        <div style="color:#999;font-size:12px;">Live team and player percentages for on-air analysis</div>
+                        <div style="color:var(--muted);font-size:12px;">Live team and player percentages for on-air analysis</div>
                     </div>
                     <div class="stats-actions">
                         <button class="btn" id="copy-stats-summary-btn" style="background:#20b2aa;color:white;width:auto;margin:0;">Copy Summary</button>
@@ -380,8 +829,124 @@
         </div>
 
         <div id="options" class="tab-content">
-            <h2>Options</h2>
-            <p>Options content goes here</p>
+            <h2 style="margin-bottom: 12px;">Options</h2>
+            <div class="options-layout">
+                <div class="option-card">
+                    <h3>Appearance</h3>
+                    <p>Choose a theme, adjust text size, and enable baby mode for extra-simple wording.</p>
+                    <select id="theme-select" class="option-input">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                        <option value="ocean">Ocean</option>
+                        <option value="ember">Ember</option>
+                        <option value="forest">Forest</option>
+                        <option value="sunrise">Sunrise</option>
+                        <option value="midnight">Midnight</option>
+                        <option value="rose">Rose</option>
+                        <option value="slate">Slate</option>
+                        <option value="mint">Mint</option>
+                        <option value="lavender">Lavender</option>
+                        <option value="sand">Sand</option>
+                        <option value="neon">Neon</option>
+                        <option value="mono">Mono</option>
+                    </select>
+                    <div class="option-row" style="align-items:center;">
+                        <label for="text-size-slider" style="font-size:13px;color:var(--muted);">Text Size: <span id="text-size-value">100%</span></label>
+                        <input id="text-size-slider" type="range" min="85" max="140" step="5" value="100" style="width:220px;">
+                    </div>
+                    <div class="option-row" style="align-items:center;">
+                        <label for="baby-mode-toggle" style="font-size:13px;color:var(--muted);">Baby Mode</label>
+                        <input id="baby-mode-toggle" type="checkbox" aria-label="Baby mode toggle">
+                    </div>
+                </div>
+
+                <div class="option-card">
+                    <h3>Updates</h3>
+                    <p>Check for a newer version before you launch or ship a build.</p>
+                    <div class="option-row">
+                        <button class="btn" id="check-updates-btn" style="background:#8e44ad;color:white;width:auto;margin:0;">Check for Update</button>
+                    </div>
+                    <div id="update-status" class="account-status">No check run yet</div>
+                </div>
+
+                <div class="option-card">
+                    <h3>Account</h3>
+                    <p>Create an account or sign in. On account creation, Rocket Cast writes username, entered password, and unique code into the account spreadsheet.</p>
+                    <div id="account-status" class="account-status">Not signed in</div>
+                    <input id="account-username" class="option-input" type="text" placeholder="Username (letters/numbers/_/./-)" autocomplete="username">
+                    <input id="account-password" class="option-input" type="password" placeholder="Password" autocomplete="current-password">
+                    <div class="option-row">
+                        <button class="btn" id="register-account-btn" style="background:#20b2aa;color:white;width:auto;margin:0;">Register</button>
+                        <button class="btn" id="login-account-btn" style="background:#007bff;color:white;width:auto;margin:0;">Sign In</button>
+                        <button class="btn" id="logout-account-btn" style="background:#555;color:white;width:auto;margin:0;">Sign Out</button>
+                    </div>
+                    <div class="account-status">Reset a regular account password with username, old password, and new password.</div>
+                    <input id="reset-username" class="option-input" type="text" placeholder="Username">
+                    <input id="reset-old-password" class="option-input" type="password" placeholder="Old password">
+                    <input id="reset-password" class="option-input" type="password" placeholder="New password">
+                    <div class="option-row">
+                        <button class="btn" id="reset-password-btn" style="background:#c97a00;color:white;width:auto;margin:0;">Reset Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="accounts" class="tab-content">
+            <h2 style="margin-bottom: 12px;">Account Spreadsheet</h2>
+            <div id="accounts-sheet-info" class="account-status" style="margin-bottom:10px;">Loading...</div>
+            <div class="option-card" style="margin-bottom:12px;">
+                <h3>Admin Controls</h3>
+                <p>Only Snorklz can access these account management actions. The table below includes each account's device ID and hostname.</p>
+                <div class="option-row">
+                    <button class="btn" id="admin-export-backup-btn" style="background:#6f42c1;color:white;width:auto;margin:0;">Export Backup</button>
+                </div>
+                <input id="admin-target-username" class="option-input" type="text" placeholder="Target username">
+                <input id="admin-new-password" class="option-input" type="password" placeholder="New password for target account">
+                <div class="option-row">
+                    <button class="btn" id="admin-change-password-btn" style="background:#007bff;color:white;width:auto;margin:0;">Change Password</button>
+                </div>
+                <input id="admin-new-code" class="option-input" type="text" placeholder="New code (leave empty to auto-generate)">
+                <div class="option-row">
+                    <button class="btn" id="admin-change-code-btn" style="background:#20b2aa;color:white;width:auto;margin:0;">Change Code</button>
+                    <button class="btn" id="admin-delete-account-btn" style="background:#c0392b;color:white;width:auto;margin:0;">Delete Account</button>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table class="percent-table">
+                    <thead id="accounts-sheet-head"></thead>
+                    <tbody id="accounts-sheet-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="help" class="tab-content">
+            <h2 style="margin-bottom: 12px;">Help</h2>
+
+            <div class="help-card">
+                <h3>Configuration</h3>
+                <ol>
+                    <li>Open rocketleague/TAGame/Config/DefaultStatsAPI.ini</li>
+                    <li>Change the packet send rate from 0 to above 0 (Max of 120 recommended)</li>
+                    <li>Make sure your port is 49123</li>
+                    <li>Save and restart RL</li>
+                </ol>
+            </div>
+
+            <div class="help-card">
+                <h3>How do I add the overlay to my streaming software?</h3>
+                <ol>
+                    <li>Open your Streaming Software of choice</li>
+                    <li>Create a new browser source</li>
+                    <li>Set the source to: http://localhost:3000</li>
+                    <li>Set the resolution to: 1920px (width) by 1080px (height) Standard 1080p</li>
+                    <li>Click OK</li>
+                    <li>Right click the source you just made</li>
+                    <li>Go to the "Transform" option</li>
+                    <li>Then click "Fit to screen"</li>
+                </ol>
+            </div>
+
+            <div style="color:var(--muted);font-size:12px;">Made by Snorklz</div>
         </div>
     </div>
 
@@ -389,9 +954,30 @@
     <script>
         let liveGame = null;
         let lastGameStats = null;
+        let lastRlStatus = null;
         const panelSocket = io();
+        const overlaysByPath = new Map();
+        let signedInAccount = null;
+        const THEME_KEY = 'rc-theme';
+        const FONT_SIZE_KEY = 'rc-font-size';
+        const BABY_MODE_KEY = 'rc-baby-mode';
+        const THEMES = ['dark', 'light', 'ocean', 'ember', 'forest', 'sunrise', 'midnight', 'rose', 'slate', 'mint', 'lavender', 'sand', 'neon', 'mono'];
+        const ACCOUNT_HEADER_LABELS = {
+            createdAt: 'Created',
+            username: 'Username',
+            password: 'Password',
+            uniqueCode: 'Code',
+            deviceId: 'Device ID',
+            hostName: 'Hostname'
+        };
+        const visiblePasswordRows = new Set();
 
         function switchTab(tabName) {
+            if (tabName === 'accounts' && !isSpreadsheetAdmin()) {
+                showPanelToast('Spreadsheet tab is restricted to Snorklz', true);
+                return;
+            }
+
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -401,6 +987,10 @@
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 if (btn.getAttribute('data-tab') === tabName) btn.classList.add('active');
             });
+
+            if (tabName === 'accounts') {
+                loadAccountSpreadsheet();
+            }
         }
 
         function showPanelToast(message, isError) {
@@ -411,26 +1001,558 @@
             setTimeout(() => toast.remove(), 2200);
         }
 
-        function loadOverlays() {
-            const container = document.getElementById('overlayList');
-            if (!container) return;
-            container.innerHTML = '';
+        function setTheme(theme) {
+            const normalizedTheme = THEMES.includes(theme) ? theme : 'dark';
+            document.body.dataset.theme = normalizedTheme;
+            localStorage.setItem(THEME_KEY, normalizedTheme);
 
-            const overlays = [{ name: 'RLCS', path: 'RLCS' }, { name: 'CRL', path: 'CRL' }];
-            overlays.forEach((overlay) => {
-                const button = document.createElement('button');
-                button.textContent = `Launch ${overlay.name} Overlay`;
-                button.style.cssText = 'padding:12px 20px;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;font-size:14px;';
-                button.onclick = () => {
-                    if (panelSocket && panelSocket.connected) {
-                        panelSocket.emit('overlay-change', { overlayName: overlay.path });
-                        showPanelToast(`Loading ${overlay.name} overlay on localhost:3000`, false);
-                    } else {
-                        showPanelToast('Not connected to relay', true);
-                    }
-                };
-                container.appendChild(button);
+            const themeSelect = document.getElementById('theme-select');
+            if (themeSelect) {
+                themeSelect.value = normalizedTheme;
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+            setTheme(savedTheme);
+        }
+
+        function setFontSize(percent) {
+            const normalized = Math.min(140, Math.max(85, Number(percent) || 100));
+            const scale = normalized / 100;
+            document.documentElement.style.setProperty('--font-scale', String(scale));
+            localStorage.setItem(FONT_SIZE_KEY, String(normalized));
+
+            const slider = document.getElementById('text-size-slider');
+            if (slider) {
+                slider.value = String(normalized);
+            }
+
+            const valueLabel = document.getElementById('text-size-value');
+            if (valueLabel) {
+                valueLabel.textContent = `${normalized}%`;
+            }
+        }
+
+        function applySavedFontSize() {
+            const saved = localStorage.getItem(FONT_SIZE_KEY);
+            setFontSize(saved ? Number(saved) : 100);
+        }
+
+        function applyBabyModeText(isEnabled) {
+            const textFor = (normalText, babyText) => (isEnabled ? babyText : normalText);
+
+            const accountTab = document.getElementById('accounts-tab-btn');
+            if (accountTab) accountTab.textContent = textFor('Spreadsheet', 'Sheet');
+
+            document.querySelectorAll('.tab-btn').forEach((tab) => {
+                const tabName = tab.getAttribute('data-tab');
+                if (tabName === 'match-settings') tab.textContent = textFor('Match Settings', 'Match');
+                if (tabName === 'overlays') tab.textContent = textFor('Overlays', 'Overlay');
+                if (tabName === 'stats') tab.textContent = textFor('Stats', 'Data');
+                if (tabName === 'options') tab.textContent = textFor('Options', 'Settings');
+                if (tabName === 'help') tab.textContent = textFor('Help', 'How To');
             });
+
+            const appearanceTitle = document.querySelector('#options .option-card h3');
+            if (appearanceTitle) appearanceTitle.textContent = textFor('Appearance', 'Look');
+
+            const appearanceDesc = document.querySelector('#options .option-card p');
+            if (appearanceDesc) appearanceDesc.textContent = textFor(
+                'Choose a theme, adjust text size, and enable baby mode for extra-simple wording.',
+                'Pick colors, text size, and simple words.'
+            );
+        }
+
+        function setBabyMode(enabled) {
+            const isEnabled = Boolean(enabled);
+            document.body.classList.toggle('baby-mode', isEnabled);
+            localStorage.setItem(BABY_MODE_KEY, isEnabled ? 'true' : 'false');
+
+            const toggle = document.getElementById('baby-mode-toggle');
+            if (toggle) {
+                toggle.checked = isEnabled;
+            }
+
+            applyBabyModeText(isEnabled);
+        }
+
+        function applySavedBabyMode() {
+            setBabyMode(localStorage.getItem(BABY_MODE_KEY) === 'true');
+        }
+
+        async function checkForAppUpdates() {
+            if (!window.rocketCast?.checkForUpdates) {
+                showPanelToast('Update checks are available only in the desktop app', true);
+                return;
+            }
+
+            const statusEl = document.getElementById('update-status');
+            if (statusEl) {
+                statusEl.textContent = 'Checking for updates...';
+            }
+
+            const result = await window.rocketCast.checkForUpdates();
+            const message = result?.message || 'Unable to check for updates';
+
+            if (statusEl) {
+                statusEl.textContent = message;
+            }
+
+            showPanelToast(message, !result?.ok);
+        }
+
+        function updateAccountStatus(account) {
+            signedInAccount = account || null;
+            const statusEl = document.getElementById('account-status');
+            if (!statusEl) {
+                return;
+            }
+
+            if (signedInAccount?.username) {
+                statusEl.textContent = `Signed in as ${signedInAccount.username}`;
+            } else {
+                statusEl.textContent = 'Not signed in';
+            }
+
+            updateSpreadsheetTabAccess();
+        }
+
+        function isSpreadsheetAdmin() {
+            return String(signedInAccount?.username || '').toLowerCase() === 'snorklz';
+        }
+
+        function updateSpreadsheetTabAccess() {
+            const tabButton = document.getElementById('accounts-tab-btn');
+            if (!tabButton) {
+                return;
+            }
+
+            const isAllowed = isSpreadsheetAdmin();
+            tabButton.style.display = isAllowed ? 'inline-block' : 'none';
+
+            if (!isAllowed) {
+                const accountsTab = document.getElementById('accounts');
+                if (accountsTab?.classList.contains('active')) {
+                    switchTab('options');
+                }
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        async function loadAccountSpreadsheet() {
+            if (!isSpreadsheetAdmin()) {
+                return;
+            }
+
+            const infoEl = document.getElementById('accounts-sheet-info');
+            const headEl = document.getElementById('accounts-sheet-head');
+            const bodyEl = document.getElementById('accounts-sheet-body');
+
+            if (!infoEl || !headEl || !bodyEl) {
+                return;
+            }
+
+            if (!window.rocketCast?.getAccountSpreadsheet) {
+                infoEl.textContent = 'Spreadsheet data is available only in the desktop app.';
+                return;
+            }
+
+            const result = await window.rocketCast.getAccountSpreadsheet();
+            if (!result?.ok) {
+                infoEl.textContent = `Failed to load spreadsheet: ${result?.error || 'unknown error'}`;
+                return;
+            }
+
+            const headers = Array.isArray(result.headers) ? result.headers : [];
+            const rows = Array.isArray(result.rows) ? result.rows : [];
+            infoEl.textContent = `${rows.length} account row(s) • ${result.filePath || ''}`;
+
+            headEl.innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(ACCOUNT_HEADER_LABELS[header] || header)}</th>`).join('')}</tr>`;
+
+            if (!rows.length) {
+                bodyEl.innerHTML = `<tr><td colspan="${Math.max(headers.length, 1)}" class="empty-state">No accounts yet.</td></tr>`;
+                return;
+            }
+
+            bodyEl.innerHTML = rows.map((row, rowIndex) => {
+                const cells = headers.map((header, index) => {
+                    const value = row[index] || '';
+                    if (header === 'password') {
+                        const isVisible = visiblePasswordRows.has(rowIndex);
+                        const displayValue = isVisible ? value : (value ? '••••••••' : '');
+                        const eyeLabel = isVisible ? 'Hide' : 'Show';
+                        return `<td><div style="display:flex;align-items:center;gap:8px;"><span>${escapeHtml(displayValue)}</span><button type="button" class="btn password-eye-btn" data-row-index="${rowIndex}" aria-pressed="${isVisible ? 'true' : 'false'}" title="${eyeLabel} password" style="background:#444;color:white;width:auto;margin:0;padding:6px 10px;font-size:12px;">&#128065;</button></div></td>`;
+                    }
+                    return `<td>${escapeHtml(value)}</td>`;
+                }).join('');
+                return `<tr>${cells}</tr>`;
+            }).join('');
+
+            bodyEl.querySelectorAll('.password-eye-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const rowIndex = Number(button.getAttribute('data-row-index'));
+                    togglePasswordRow(rowIndex);
+                });
+            });
+        }
+
+        function togglePasswordRow(rowIndex) {
+            if (visiblePasswordRows.has(rowIndex)) {
+                visiblePasswordRows.delete(rowIndex);
+            } else {
+                visiblePasswordRows.add(rowIndex);
+            }
+
+            loadAccountSpreadsheet();
+        }
+
+        async function adminDeleteAccount() {
+            if (!window.rocketCast?.adminDeleteAccount) {
+                showPanelToast('Admin delete is available only in desktop app', true);
+                return;
+            }
+
+            const username = document.getElementById('admin-target-username')?.value || '';
+            const result = await window.rocketCast.adminDeleteAccount(username);
+
+            if (!result?.ok) {
+                if (!result?.canceled) {
+                    showPanelToast(result?.error || 'Failed to delete account', true);
+                }
+                return;
+            }
+
+            showPanelToast('Account deleted', false);
+            loadAccountSpreadsheet();
+        }
+
+        async function adminExportBackup() {
+            if (!window.rocketCast?.adminExportAccountBackup) {
+                showPanelToast('Backup export is available only in desktop app', true);
+                return;
+            }
+
+            const result = await window.rocketCast.adminExportAccountBackup();
+            if (!result?.ok) {
+                if (!result?.canceled) {
+                    showPanelToast(result?.error || 'Failed to export backup', true);
+                }
+                return;
+            }
+
+            showPanelToast(`Backup exported${result.jsonPath ? `: ${result.jsonPath}` : ''}`, false);
+        }
+
+        async function refreshAuthStatus() {
+            if (!window.rocketCast?.authStatus) {
+                return;
+            }
+
+            const result = await window.rocketCast.authStatus();
+            if (result?.ok) {
+                updateAccountStatus(result.account || null);
+            }
+        }
+
+        function readAccountInputs() {
+            const usernameEl = document.getElementById('account-username');
+            const passwordEl = document.getElementById('account-password');
+            return {
+                username: usernameEl?.value || '',
+                password: passwordEl?.value || ''
+            };
+        }
+
+        function clearPasswordInput() {
+            const passwordEl = document.getElementById('account-password');
+            if (passwordEl) {
+                passwordEl.value = '';
+            }
+        }
+
+        async function registerAccount() {
+            if (!window.rocketCast?.authRegister) {
+                showPanelToast('Account system is available only in desktop app', true);
+                return;
+            }
+
+            const { username, password } = readAccountInputs();
+            const result = await window.rocketCast.authRegister(username, password);
+            if (!result?.ok) {
+                showPanelToast(result?.error || 'Failed to register account', true);
+                return;
+            }
+
+            updateAccountStatus(result.account);
+            clearPasswordInput();
+
+            if (result.sheetSynced === false) {
+                showPanelToast(`Account created, but spreadsheet logging failed: ${result.sheetError || 'unknown error'}`, true);
+                return;
+            }
+
+            showPanelToast('Account created, signed in, and logged to spreadsheet', false);
+            if (isSpreadsheetAdmin()) {
+                loadAccountSpreadsheet();
+            }
+        }
+
+        async function loginAccount() {
+            if (!window.rocketCast?.authLogin) {
+                showPanelToast('Account system is available only in desktop app', true);
+                return;
+            }
+
+            const { username, password } = readAccountInputs();
+            const result = await window.rocketCast.authLogin(username, password);
+            if (!result?.ok) {
+                showPanelToast(result?.error || 'Failed to sign in', true);
+                return;
+            }
+
+            updateAccountStatus(result.account);
+            clearPasswordInput();
+            showPanelToast('Signed in successfully', false);
+            if (isSpreadsheetAdmin()) {
+                loadAccountSpreadsheet();
+            }
+        }
+
+        async function logoutAccount() {
+            if (!window.rocketCast?.authLogout) {
+                showPanelToast('Account system is available only in desktop app', true);
+                return;
+            }
+
+            await window.rocketCast.authLogout();
+            updateAccountStatus(null);
+            showPanelToast('Signed out', false);
+        }
+
+        async function resetRegularAccountPassword() {
+            if (!window.rocketCast?.authResetPassword) {
+                showPanelToast('Password reset is available only in desktop app', true);
+                return;
+            }
+
+            const username = document.getElementById('reset-username')?.value || '';
+            const oldPassword = document.getElementById('reset-old-password')?.value || '';
+            const password = document.getElementById('reset-password')?.value || '';
+            const result = await window.rocketCast.authResetPassword(username, oldPassword, password);
+
+            if (!result?.ok) {
+                showPanelToast(result?.error || 'Failed to reset password', true);
+                return;
+            }
+
+            const resetPasswordInput = document.getElementById('reset-password');
+            if (resetPasswordInput) {
+                resetPasswordInput.value = '';
+            }
+
+            const resetOldPasswordInput = document.getElementById('reset-old-password');
+            if (resetOldPasswordInput) {
+                resetOldPasswordInput.value = '';
+            }
+
+            showPanelToast('Password reset successfully', false);
+        }
+
+        async function adminChangePassword() {
+            if (!window.rocketCast?.adminUpdateAccountPassword) {
+                showPanelToast('Admin controls are available only in desktop app', true);
+                return;
+            }
+
+            const username = document.getElementById('admin-target-username')?.value || '';
+            const password = document.getElementById('admin-new-password')?.value || '';
+            const result = await window.rocketCast.adminUpdateAccountPassword(username, password);
+
+            if (!result?.ok) {
+                showPanelToast(result?.error || 'Failed to change password', true);
+                return;
+            }
+
+            const input = document.getElementById('admin-new-password');
+            if (input) {
+                input.value = '';
+            }
+
+            showPanelToast('Account password updated', false);
+            loadAccountSpreadsheet();
+        }
+
+        async function adminChangeCode() {
+            if (!window.rocketCast?.adminUpdateAccountCode) {
+                showPanelToast('Admin controls are available only in desktop app', true);
+                return;
+            }
+
+            const username = document.getElementById('admin-target-username')?.value || '';
+            const nextCode = document.getElementById('admin-new-code')?.value || '';
+            const result = await window.rocketCast.adminUpdateAccountCode(username, nextCode);
+
+            if (!result?.ok) {
+                showPanelToast(result?.error || 'Failed to change code', true);
+                return;
+            }
+
+            const input = document.getElementById('admin-new-code');
+            if (input) {
+                input.value = '';
+            }
+
+            showPanelToast(`Account code updated${result.uniqueCode ? `: ${result.uniqueCode}` : ''}`, false);
+            loadAccountSpreadsheet();
+        }
+
+        async function fetchOverlayList() {
+            if (window.rocketCast?.getOverlays) {
+                return window.rocketCast.getOverlays();
+            }
+
+            const response = await fetch('/api/overlays');
+            if (!response.ok) {
+                throw new Error('Failed to load overlays');
+            }
+
+            return response.json();
+        }
+
+        function launchOverlay(overlay) {
+            if (!panelSocket || !panelSocket.connected) {
+                showPanelToast('Not connected to relay', true);
+                return;
+            }
+
+            panelSocket.emit('overlay-change', { overlayName: overlay.path });
+            showPanelToast(`Loading ${overlay.name} overlay on localhost:3000`, false);
+        }
+
+        function fillOverlaySelect(selectId, overlays, emptyLabel) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+
+            select.innerHTML = '';
+
+            if (!overlays.length) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = emptyLabel;
+                select.appendChild(option);
+                select.disabled = true;
+                return;
+            }
+
+            overlays.forEach((overlay) => {
+                const option = document.createElement('option');
+                option.value = overlay.path;
+                option.textContent = `${overlay.name} (${overlay.path})`;
+                select.appendChild(option);
+            });
+
+            select.disabled = false;
+        }
+
+        async function loadOverlays() {
+            overlaysByPath.clear();
+
+            try {
+                const overlays = await fetchOverlayList();
+                const list = Array.isArray(overlays) ? overlays : [];
+
+                list.forEach((overlay) => {
+                    overlaysByPath.set(overlay.path, overlay);
+                });
+
+                const builtInOverlays = list
+                    .filter((overlay) => overlay.source !== 'custom')
+                    .sort((a, b) => a.name.localeCompare(b.name));
+
+                const customOverlays = list
+                    .filter((overlay) => overlay.source === 'custom')
+                    .sort((a, b) => a.name.localeCompare(b.name));
+
+                fillOverlaySelect('builtin-overlay-select', builtInOverlays, 'No built-in overlays found');
+                fillOverlaySelect('custom-overlay-select', customOverlays, 'No uploaded overlays found');
+
+                const launchBuiltInButton = document.getElementById('launch-builtin-overlay-btn');
+                if (launchBuiltInButton) {
+                    launchBuiltInButton.disabled = builtInOverlays.length === 0;
+                    launchBuiltInButton.style.opacity = builtInOverlays.length === 0 ? '0.6' : '1';
+                    launchBuiltInButton.style.cursor = builtInOverlays.length === 0 ? 'not-allowed' : 'pointer';
+                }
+
+                const launchCustomButton = document.getElementById('launch-custom-overlay-btn');
+                if (launchCustomButton) {
+                    launchCustomButton.disabled = customOverlays.length === 0;
+                    launchCustomButton.style.opacity = customOverlays.length === 0 ? '0.6' : '1';
+                    launchCustomButton.style.cursor = customOverlays.length === 0 ? 'not-allowed' : 'pointer';
+                }
+            } catch (err) {
+                fillOverlaySelect('builtin-overlay-select', [], 'Failed to load built-ins');
+                fillOverlaySelect('custom-overlay-select', [], 'Failed to load uploads');
+
+                const launchBuiltInButton = document.getElementById('launch-builtin-overlay-btn');
+                if (launchBuiltInButton) {
+                    launchBuiltInButton.disabled = true;
+                    launchBuiltInButton.style.opacity = '0.6';
+                    launchBuiltInButton.style.cursor = 'not-allowed';
+                }
+
+                const launchCustomButton = document.getElementById('launch-custom-overlay-btn');
+                if (launchCustomButton) {
+                    launchCustomButton.disabled = true;
+                    launchCustomButton.style.opacity = '0.6';
+                    launchCustomButton.style.cursor = 'not-allowed';
+                }
+
+                showPanelToast(err?.message || 'Failed to load overlays', true);
+            }
+        }
+
+        function launchOverlayFromSelect(selectId) {
+            const select = document.getElementById(selectId);
+            if (!select || !select.value) {
+                return;
+            }
+
+            const overlay = overlaysByPath.get(select.value);
+            if (!overlay) {
+                showPanelToast('Selected overlay was not found', true);
+                return;
+            }
+
+            launchOverlay(overlay);
+        }
+
+        async function uploadOverlayFolder() {
+            if (!window.rocketCast?.importOverlayFolder) {
+                showPanelToast('Overlay upload is available only in the Rocket Cast desktop app', true);
+                return;
+            }
+
+            const result = await window.rocketCast.importOverlayFolder();
+            if (!result || result.canceled) {
+                return;
+            }
+
+            if (result.error) {
+                showPanelToast(result.error, true);
+                return;
+            }
+
+            showPanelToast(`Imported ${result.overlay.name}`, false);
+            loadOverlays();
         }
 
         function pct(part, whole) {
@@ -845,7 +1967,92 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            applySavedTheme();
+            applySavedFontSize();
+            applySavedBabyMode();
             loadOverlays();
+            refreshAuthStatus();
+
+            const uploadOverlayBtn = document.getElementById('upload-overlay-btn');
+            if (uploadOverlayBtn) {
+                uploadOverlayBtn.addEventListener('click', uploadOverlayFolder);
+            }
+
+            const refreshOverlaysBtn = document.getElementById('refresh-overlays-btn');
+            if (refreshOverlaysBtn) {
+                refreshOverlaysBtn.addEventListener('click', loadOverlays);
+            }
+
+            const launchBuiltInBtn = document.getElementById('launch-builtin-overlay-btn');
+            if (launchBuiltInBtn) {
+                launchBuiltInBtn.addEventListener('click', () => launchOverlayFromSelect('builtin-overlay-select'));
+            }
+
+            const launchCustomBtn = document.getElementById('launch-custom-overlay-btn');
+            if (launchCustomBtn) {
+                launchCustomBtn.addEventListener('click', () => launchOverlayFromSelect('custom-overlay-select'));
+            }
+
+            const themeSelect = document.getElementById('theme-select');
+            if (themeSelect) {
+                themeSelect.addEventListener('change', (event) => setTheme(event.target.value));
+            }
+
+            const textSizeSlider = document.getElementById('text-size-slider');
+            if (textSizeSlider) {
+                textSizeSlider.addEventListener('input', (event) => setFontSize(event.target.value));
+            }
+
+            const babyModeToggle = document.getElementById('baby-mode-toggle');
+            if (babyModeToggle) {
+                babyModeToggle.addEventListener('change', (event) => setBabyMode(event.target.checked));
+            }
+
+            const checkUpdatesBtn = document.getElementById('check-updates-btn');
+            if (checkUpdatesBtn) {
+                checkUpdatesBtn.addEventListener('click', checkForAppUpdates);
+            }
+
+            const registerAccountBtn = document.getElementById('register-account-btn');
+            if (registerAccountBtn) {
+                registerAccountBtn.addEventListener('click', registerAccount);
+            }
+
+            const loginAccountBtn = document.getElementById('login-account-btn');
+            if (loginAccountBtn) {
+                loginAccountBtn.addEventListener('click', loginAccount);
+            }
+
+            const logoutAccountBtn = document.getElementById('logout-account-btn');
+            if (logoutAccountBtn) {
+                logoutAccountBtn.addEventListener('click', logoutAccount);
+            }
+
+            const resetPasswordBtn = document.getElementById('reset-password-btn');
+            if (resetPasswordBtn) {
+                resetPasswordBtn.addEventListener('click', resetRegularAccountPassword);
+            }
+
+            const adminChangePasswordBtn = document.getElementById('admin-change-password-btn');
+            if (adminChangePasswordBtn) {
+                adminChangePasswordBtn.addEventListener('click', adminChangePassword);
+            }
+
+            const adminChangeCodeBtn = document.getElementById('admin-change-code-btn');
+            if (adminChangeCodeBtn) {
+                adminChangeCodeBtn.addEventListener('click', adminChangeCode);
+            }
+
+            const adminDeleteAccountBtn = document.getElementById('admin-delete-account-btn');
+            if (adminDeleteAccountBtn) {
+                adminDeleteAccountBtn.addEventListener('click', adminDeleteAccount);
+            }
+
+            const adminExportBackupBtn = document.getElementById('admin-export-backup-btn');
+            if (adminExportBackupBtn) {
+                adminExportBackupBtn.addEventListener('click', adminExportBackup);
+            }
+
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() { switchTab(this.getAttribute('data-tab')); });
             });
@@ -860,6 +2067,10 @@
             });
         });
 
+        panelSocket.on('overlays-updated', () => {
+            loadOverlays();
+        });
+
         panelSocket.on('state', packet => {
             const ev = packet.Event || packet.event || '';
             const data = packet.Data || packet.data || {};
@@ -871,6 +2082,20 @@
                 liveGame = null;
                 renderStatsHub();
             }
+        });
+
+        panelSocket.on('rl-status', status => {
+            lastRlStatus = status || null;
+            const statusText = !status ? 'Rocket League status unknown' : status.connected
+                ? `Rocket League connected via ${status.transport || 'unknown'} ${status.endpoint || ''}`
+                : `Rocket League not connected${status.lastError ? `: ${status.lastError}` : ''}`;
+
+            const statusBox = document.getElementById('rl-status-box');
+            if (statusBox) {
+                statusBox.textContent = statusText;
+            }
+
+            console.log('RL status:', statusText);
         });
     </script>
 </body>
